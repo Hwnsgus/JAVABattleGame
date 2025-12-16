@@ -24,7 +24,7 @@ public class SoundEffectPlayer implements Runnable {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
 
-            clip.start(); // ¼Ò¸® Àç»ı
+            clip.start(); // ì†Œë¦¬ ì¬ìƒ
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }

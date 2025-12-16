@@ -2,10 +2,12 @@ package Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
+import java.awt.event.*;
+
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Random;
+
 
 public class FightingGame {
     private JFrame frame;
@@ -34,20 +36,20 @@ public class FightingGame {
     }
 
     private void start() {
-        frame = new JFrame("°İÅõ°ÔÀÓ");
+        frame = new JFrame("ê²©íˆ¬ê²Œì„");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Ã¹ ¹øÂ° È­¸é: ÀÌ¸§ ÀÔ·Â ¹Ş±â
+        // ì²« ë²ˆì§¸ í™”ë©´: ì´ë¦„ ì…ë ¥ ë°›ê¸°
 
         panel1 = new JPanel();
         GridBagLayout gridBagLayout = new GridBagLayout();
         panel1.setLayout(gridBagLayout);
 
-        JLabel label1 = new JLabel("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä:");
+        JLabel label1 = new JLabel("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”:");
         label1.setPreferredSize(new Dimension(120, 100));
         nameInput = new JTextField();
         nameInput.setColumns(15);
-        JButton nextButton = new JButton("´ÙÀ½");
+        JButton nextButton = new JButton("ë‹¤ìŒ");
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -67,7 +69,7 @@ public class FightingGame {
             public void actionPerformed(ActionEvent e) {
                 playerName = nameInput.getText();
                 moveToNextPanel(playerName);
-                startBackgroundMusicThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/pokemon-battle.wav");
+                startBackgroundMusicThread("C:/git/JAVABattleGame/BattleGame/src/images/pokemon-battle.wav");
             }
 
             private void startBackgroundMusicThread(String filePath) {
@@ -105,42 +107,42 @@ public class FightingGame {
     private void moveToNextPanel(String playerName) {
         frame.getContentPane().remove(panel1);
 
-        // µÎ ¹øÂ° È­¸é: Ä³¸¯ÅÍ ÀÌ¹ÌÁö ¹× ¹öÆ°
-        panel2 = new ImagePanel("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/background.png");
+        // ë‘ ë²ˆì§¸ í™”ë©´: ìºë¦­í„° ì´ë¯¸ì§€ ë° ë²„íŠ¼
+        panel2 = new ImagePanel("C:/git/JAVABattleGame/BattleGame/src/images/background.png");
         panel2.setLayout(new GridBagLayout());
         panel2.setPreferredSize(new Dimension(1040, 780));
 
         healthBar = new JProgressBar();
-        healthBar.setMinimum(0); // ÃÖ¼Ò Ã¼·Â ¼³Á¤
-        healthBar.setMaximum(100); // ÃÖ´ë Ã¼·Â ¼³Á¤
-        healthBar.setValue(100); // ÃÊ±â Ã¼·Â ¼³Á¤
+        healthBar.setMinimum(0); // ìµœì†Œ ì²´ë ¥ ì„¤ì •
+        healthBar.setMaximum(100); // ìµœëŒ€ ì²´ë ¥ ì„¤ì •
+        healthBar.setValue(100); // ì´ˆê¸° ì²´ë ¥ ì„¤ì •
         healthBar.setStringPainted(true); 
         healthBar.setForeground(Color.GREEN);
 
         playerHealthBar = new JProgressBar();
-        playerHealthBar.setMinimum(0); // ÃÖ¼Ò Ã¼·Â ¼³Á¤
-        playerHealthBar.setMaximum(100); // ÃÖ´ë Ã¼·Â ¼³Á¤
+        playerHealthBar.setMinimum(0); // ìµœì†Œ ì²´ë ¥ ì„¤ì •
+        playerHealthBar.setMaximum(100); // ìµœëŒ€ ì²´ë ¥ ì„¤ì •
         playerHealthBar.setValue(100); 
         playerHealthBar.setStringPainted(true);
         playerHealthBar.setForeground(Color.GREEN);
 
-        // ÇÃ·¹ÀÌ¾î ÀÌ¹ÌÁö¿Í Àû ÀÌ¹ÌÁö¸¦ ³ÖÀ» ¶óº§
-        JLabel playerLabel = new JLabel(new ImageIcon("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/player.png")); 
-        enemyLabel = new JLabel(new ImageIcon("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/buu.png")); 
+        // í”Œë ˆì´ì–´ ì´ë¯¸ì§€ì™€ ì  ì´ë¯¸ì§€ë¥¼ ë„£ì„ ë¼ë²¨
+        JLabel playerLabel = new JLabel(new ImageIcon("C:/git/JAVABattleGame/BattleGame/src/images/player.png")); 
+        enemyLabel = new JLabel(new ImageIcon("C:/git/JAVABattleGame/BattleGame/src/images/buu.png")); 
 
-        // °ø°İ ¹öÆ° Ãß°¡
+        // ê³µê²© ë²„íŠ¼ ì¶”ê°€
         JButton punchButton = new JButton("Punch");
         JButton kickButton = new JButton("Kick");
         JButton skillButton = new JButton("Skill");
 
-        // ÀüÅõ Á¤º¸¸¦ Ç¥½ÃÇÒ JTextArea
+        // ì „íˆ¬ ì •ë³´ë¥¼ í‘œì‹œí•  JTextArea
         combatInfoArea = new JTextArea(10, 30);
         combatInfoArea.setFont(new Font("Ariel", Font.PLAIN, 16));
         JScrollPane scrollPane = new JScrollPane(combatInfoArea);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        exitButton = new JButton("°ÔÀÓ Á¾·á");
+        exitButton = new JButton("ê²Œì„ ì¢…ë£Œ");
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                System.exit(0);
@@ -152,54 +154,54 @@ public class FightingGame {
         gbc.insets = new Insets(10, 10, 10, 10);
         panel2.add(exitButton, gbc);
 
-        // ÇÃ·¹ÀÌ¾î ÀÌ¹ÌÁö À§Ä¡ ¼³Á¤ (¿ŞÂÊ ¾Æ·¡)
+        // í”Œë ˆì´ì–´ ì´ë¯¸ì§€ ìœ„ì¹˜ ì„¤ì • (ì™¼ìª½ ì•„ë˜)
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.LINE_START; // ¿ŞÂÊ Á¤·Ä
+        gbc.anchor = GridBagConstraints.LINE_START; // ì™¼ìª½ ì •ë ¬
         gbc.insets = new Insets(0, 10, 0, 0);
         panel2.add(playerLabel, gbc);
 
-        // Àû ÀÌ¹ÌÁö À§Ä¡ ¼³Á¤ (¿À¸¥ÂÊ »ó´Ü)
+        // ì  ì´ë¯¸ì§€ ìœ„ì¹˜ ì„¤ì • (ì˜¤ë¥¸ìª½ ìƒë‹¨)
         gbc.gridx = 3;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.LINE_END; // ¿À¸¥ÂÊ Á¤·Ä
+        gbc.anchor = GridBagConstraints.LINE_END; // ì˜¤ë¥¸ìª½ ì •ë ¬
         panel2.add(enemyLabel, gbc);
 
-        // ¹öÆ° ÆĞ³Î À§Ä¡ ¼³Á¤
+        // ë²„íŠ¼ íŒ¨ë„ ìœ„ì¹˜ ì„¤ì •
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(3, 1, 10, 10)); 
         buttonPanel.add(punchButton);
         buttonPanel.add(kickButton);
         buttonPanel.add(skillButton);
 
-        gbc.gridx = 3; // ¿À¸¥ÂÊ¿¡ ¹èÄ¡ÇÏ°íÀÚ ÇÏ´Â À§Ä¡·Î ¼³Á¤
-        gbc.gridy = 2; // ¿ø·¡ ÇÃ·¹ÀÌ¾î ÀÌ¹ÌÁö ¾Æ·¡¿¡ ¹èÄ¡ÇÏ°íÀÚ ÇÔ
+        gbc.gridx = 3; // ì˜¤ë¥¸ìª½ì— ë°°ì¹˜í•˜ê³ ì í•˜ëŠ” ìœ„ì¹˜ë¡œ ì„¤ì •
+        gbc.gridy = 2; // ì›ë˜ í”Œë ˆì´ì–´ ì´ë¯¸ì§€ ì•„ë˜ì— ë°°ì¹˜í•˜ê³ ì í•¨
         gbc.anchor = GridBagConstraints.LINE_END;
         gbc.insets = new Insets(0, 0, 0, 0); 
         panel2.add(buttonPanel, gbc);
         
-        // ÀüÅõ Á¤º¸Ã¢ À§Ä¡ ¼³Á¤
+        // ì „íˆ¬ ì •ë³´ì°½ ìœ„ì¹˜ ì„¤ì •
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.gridwidth = 1; // 1·Î º¯°æÇÏ¿© ÀüÅõ Á¤º¸Ã¢ÀÇ °¡·Î Å©±â¸¦ 1·Î ¼³Á¤
-        gbc.weightx = 1.0; // X ¹æÇâÀ¸·Î È®Àå °¡´ÉÇÑ °ø°£ ¼³Á¤
-        gbc.weighty = 1.0; // Y ¹æÇâÀ¸·Î È®Àå °¡´ÉÇÑ °ø°£ ¼³Á¤
-        gbc.fill = GridBagConstraints.BOTH; // µÎ ¹æÇâÀ¸·Î È®ÀåÇÏµµ·Ï ¼³Á¤
+        gbc.gridwidth = 1; // 1ë¡œ ë³€ê²½í•˜ì—¬ ì „íˆ¬ ì •ë³´ì°½ì˜ ê°€ë¡œ í¬ê¸°ë¥¼ 1ë¡œ ì„¤ì •
+        gbc.weightx = 1.0; // X ë°©í–¥ìœ¼ë¡œ í™•ì¥ ê°€ëŠ¥í•œ ê³µê°„ ì„¤ì •
+        gbc.weighty = 1.0; // Y ë°©í–¥ìœ¼ë¡œ í™•ì¥ ê°€ëŠ¥í•œ ê³µê°„ ì„¤ì •
+        gbc.fill = GridBagConstraints.BOTH; // ë‘ ë°©í–¥ìœ¼ë¡œ í™•ì¥í•˜ë„ë¡ ì„¤ì •
         gbc.anchor = GridBagConstraints.CENTER;
         panel2.add(scrollPane, gbc);
 
-        // healthBar¿Í playerHealthBar¸¦ panel2¿¡ Ãß°¡
+        // healthBarì™€ playerHealthBarë¥¼ panel2ì— ì¶”ê°€
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.gridwidth = 1; // 1·Î º¯°æÇÏ¿© Ã¼·Â¹ÙÀÇ °¡·Î Å©±â¸¦ 1·Î ¼³Á¤
+        gbc.gridwidth = 1; // 1ë¡œ ë³€ê²½í•˜ì—¬ ì²´ë ¥ë°”ì˜ ê°€ë¡œ í¬ê¸°ë¥¼ 1ë¡œ ì„¤ì •
         gbc.gridheight = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL; // ¼öÆòÀ¸·Î Ã¤¿ì±â
+        gbc.fill = GridBagConstraints.HORIZONTAL; // ìˆ˜í‰ìœ¼ë¡œ ì±„ìš°ê¸°
         gbc.insets = new Insets(10, 0, 10, 0); 
         panel2.add(healthBar, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
-        gbc.gridwidth = 1; // 1·Î º¯°æÇÏ¿© ÇÃ·¹ÀÌ¾î Ã¼·Â¹ÙÀÇ °¡·Î Å©±â¸¦ 1·Î ¼³Á¤
+        gbc.gridwidth = 1; // 1ë¡œ ë³€ê²½í•˜ì—¬ í”Œë ˆì´ì–´ ì²´ë ¥ë°”ì˜ ê°€ë¡œ í¬ê¸°ë¥¼ 1ë¡œ ì„¤ì •
         gbc.gridheight = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL; 
         gbc.insets = new Insets(10, 10, 10, 10); 
@@ -210,71 +212,71 @@ public class FightingGame {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        // °ø°İ ¹öÆ°¿¡ ´ëÇÑ ActionListener Ãß°¡
+        // ê³µê²© ë²„íŠ¼ì— ëŒ€í•œ ActionListener ì¶”ê°€
         punchButton.addActionListener(e -> {
-            if (punchCount > 0 && playerHealth > 0) { // ÇÃ·¹ÀÌ¾î Ã¼·ÂÀÌ 0º¸´Ù Å¬ ¶§¸¸ °ø°İ µ¿ÀÛ ¼öÇà
+            if (punchCount > 0 && playerHealth > 0) { // í”Œë ˆì´ì–´ ì²´ë ¥ì´ 0ë³´ë‹¤ í´ ë•Œë§Œ ê³µê²© ë™ì‘ ìˆ˜í–‰
                 int defenseChance = (int) (Math.random() * 10);
                 if (defenseChance < 2) {
-                    displayCombatInfo("»ó´ë°¡ °ø°İÀ» ¹æ¾îÇß½À´Ï´Ù!\n");
-                    startShieldEffectThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/shield.wav");
+                    displayCombatInfo("ìƒëŒ€ê°€ ê³µê²©ì„ ë°©ì–´í–ˆìŠµë‹ˆë‹¤!\n");
+                    startShieldEffectThread("C:/git/JAVABattleGame/BattleGame/src/images/shield.wav");
                     enemyAttack();
                 } else {
-                   startPunchEffectThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/light_punch1.wav");
-                    displayCombatInfo("»ó´ë°¡ 10µ¥¹ÌÁö¸¦ ¹Ş¾Ò½À´Ï´Ù");
+                   startPunchEffectThread("C:/git/JAVABattleGame/BattleGame/src/images/light_punch1.wav");
+                    displayCombatInfo("ìƒëŒ€ê°€ 10ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ìŠµë‹ˆë‹¤");
                     decreaseEnemyHealth(10);
                 }
-                punchCount--; // ÆİÄ¡ »ç¿ë È½¼ö °¨¼Ò
+                punchCount--; // í€ì¹˜ ì‚¬ìš© íšŸìˆ˜ ê°ì†Œ
                 if (punchCount == 0) {
-                    punchButton.setEnabled(false); // ÆİÄ¡ ¹öÆ° ºñÈ°¼ºÈ­
+                    punchButton.setEnabled(false); // í€ì¹˜ ë²„íŠ¼ ë¹„í™œì„±í™”
                 }
             }
         });
 
         kickButton.addActionListener(e -> {
             if (kickCount > 0 && playerHealth > 0) {
-                // ÇÃ·¹ÀÌ¾î Ã¼·ÂÀÌ 0º¸´Ù Å¬ ¶§¸¸ °ø°İ µ¿ÀÛ ¼öÇà
+                // í”Œë ˆì´ì–´ ì²´ë ¥ì´ 0ë³´ë‹¤ í´ ë•Œë§Œ ê³µê²© ë™ì‘ ìˆ˜í–‰
                 int defenseChance = (int) (Math.random() * 10);
                 if (defenseChance < 2) {
-                    displayCombatInfo("»ó´ë°¡ °ø°İÀ» ¹æ¾îÇß½À´Ï´Ù!\n");
-                    startShieldEffectThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/shield.wav");
+                    displayCombatInfo("ìƒëŒ€ê°€ ê³µê²©ì„ ë°©ì–´í–ˆìŠµë‹ˆë‹¤!\n");
+                    startShieldEffectThread("C:/git/JAVABattleGame/BattleGame/src/images/shield.wav");
                     enemyAttack();
                 } else {
-                    displayCombatInfo("»ó´ë°¡ 15µ¥¹ÌÁö¸¦ ¹Ş¾Ò½À´Ï´Ù");
-                    startKickEffectThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/kick.wav");
+                    displayCombatInfo("ìƒëŒ€ê°€ 15ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ìŠµë‹ˆë‹¤");
+                    startKickEffectThread("C:/git/JAVABattleGame/BattleGame/src/images/kick.wav");
                     decreaseEnemyHealth(15);
                 }
-                kickCount--; // Å± »ç¿ë È½¼ö °¨¼Ò
+                kickCount--; // í‚¥ ì‚¬ìš© íšŸìˆ˜ ê°ì†Œ
                 if (kickCount == 0) {
-                    kickButton.setEnabled(false); // Å± ¹öÆ° ºñÈ°¼ºÈ­
+                    kickButton.setEnabled(false); // í‚¥ ë²„íŠ¼ ë¹„í™œì„±í™”
                 }
             }
         });
 
         skillButton.addActionListener(e -> {
-            if (skillCount > 0 && playerHealth > 0) { // ÇÃ·¹ÀÌ¾î Ã¼·ÂÀÌ 0º¸´Ù Å¬ ¶§¸¸ °ø°İ µ¿ÀÛ ¼öÇà
+            if (skillCount > 0 && playerHealth > 0) { // í”Œë ˆì´ì–´ ì²´ë ¥ì´ 0ë³´ë‹¤ í´ ë•Œë§Œ ê³µê²© ë™ì‘ ìˆ˜í–‰
                 int defenseChance = (int) (Math.random() * 10);
                 if (defenseChance < 2) {
-                    displayCombatInfo("»ó´ë°¡ °ø°İÀ» ¹æ¾îÇß½À´Ï´Ù!\n");
-                    startShieldEffectThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/shield.wav");
+                    displayCombatInfo("ìƒëŒ€ê°€ ê³µê²©ì„ ë°©ì–´í–ˆìŠµë‹ˆë‹¤!\n");
+                    startShieldEffectThread("C:/git/JAVABattleGame/BattleGame/src/images/shield.wav");
                     enemyAttack();
                 } else {
-                    displayCombatInfo("»ó´ë°¡ 20µ¥¹ÌÁö¸¦ ¹Ş¾Ò½À´Ï´Ù");
-                    startSkillEffectThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/skill.wav");
+                    displayCombatInfo("ìƒëŒ€ê°€ 20ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ìŠµë‹ˆë‹¤");
+                    startSkillEffectThread("C:/git/JAVABattleGame/BattleGame/src/images/skill.wav");
                     decreaseEnemyHealth(20);
                 }
-                skillCount--; // ½ºÅ³ »ç¿ë È½¼ö °¨¼Ò
+                skillCount--; // ìŠ¤í‚¬ ì‚¬ìš© íšŸìˆ˜ ê°ì†Œ
                 if (skillCount == 0) {
-                    skillButton.setEnabled(false); // ½ºÅ³ ¹öÆ° ºñÈ°¼ºÈ­
+                    skillButton.setEnabled(false); // ìŠ¤í‚¬ ë²„íŠ¼ ë¹„í™œì„±í™”
                 }
             }
         });
     }
     
     private void startShieldEffectThread(String filePath) {
-        // ¹é±×¶ó¿îµå ½º·¹µå¿¡¼­ È¿°úÀ½ Àç»ıÇÏ´Â ¹æ½ÄÀ¸·Î º¯°æ
+        // ë°±ê·¸ë¼ìš´ë“œ ìŠ¤ë ˆë“œì—ì„œ íš¨ê³¼ìŒ ì¬ìƒí•˜ëŠ” ë°©ì‹ìœ¼ë¡œ ë³€ê²½
         Thread soundThread = new Thread(() -> {
             soundEffectPlayer = new SoundEffectPlayer(filePath);
-            soundEffectPlayer.playHitSound("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/shield.wav");
+            soundEffectPlayer.playHitSound("C:/git/JAVABattleGame/BattleGame/src/images/shield.wav");
         });
         soundThread.start();
     }
@@ -282,7 +284,7 @@ public class FightingGame {
     private void startPunchEffectThread(String filePath) {
         Thread soundThread = new Thread(() -> {
             soundEffectPlayer = new SoundEffectPlayer(filePath);
-            soundEffectPlayer.playHitSound("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/light_punch1.wav");
+            soundEffectPlayer.playHitSound("C:/git/JAVABattleGame/BattleGame/src/images/light_punch1.wav");
         });
         soundThread.start();
     }
@@ -290,7 +292,7 @@ public class FightingGame {
     private void startKickEffectThread(String filePath) {
         Thread soundThread = new Thread(() -> {
             soundEffectPlayer = new SoundEffectPlayer(filePath);
-            soundEffectPlayer.playHitSound("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/kick.wav");
+            soundEffectPlayer.playHitSound("C:/git/JAVABattleGame/BattleGame/src/images/kick.wav");
         });
         soundThread.start();
     }
@@ -298,7 +300,7 @@ public class FightingGame {
     private void startSkillEffectThread(String filePath) {
         Thread soundThread = new Thread(() -> {
             soundEffectPlayer = new SoundEffectPlayer(filePath);
-            soundEffectPlayer.playHitSound("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/skill.wav");
+            soundEffectPlayer.playHitSound("C:/git/JAVABattleGame/BattleGame/src/images/skill.wav");
         });
         soundThread.start();
     }
@@ -307,43 +309,43 @@ public class FightingGame {
         defendEnemy(damage);
         enemyAttack();
 
-        ImageIcon newImageIcon = new ImageIcon("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/hit_buu.png");
-        enemyLabel.setIcon(newImageIcon); // »õ·Î¿î ÀÌ¹ÌÁö·Î º¯°æ
+        ImageIcon newImageIcon = new ImageIcon("C:/git/JAVABattleGame/BattleGame/src/images/hit_buu.png");
+        enemyLabel.setIcon(newImageIcon); // ìƒˆë¡œìš´ ì´ë¯¸ì§€ë¡œ ë³€ê²½
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                // ¿ø·¡ ÀÌ¹ÌÁö·Î º¹¿ø
-                ImageIcon originalImageIcon = new ImageIcon("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/buu.png");
-                enemyLabel.setIcon(originalImageIcon); // ¿ø·¡ ÀÌ¹ÌÁö·Î º¯°æ
-                panel2.revalidate(); // ÆĞ³ÎÀ» ´Ù½Ã À¯È¿È­ÇÏ¿© º¯°æ »çÇ×À» Àû¿ë
-                panel2.repaint(); // ÆĞ³ÎÀ» ´Ù½Ã ±×·Á¼­ º¯°æ »çÇ×À» Àû¿ë
+                // ì›ë˜ ì´ë¯¸ì§€ë¡œ ë³µì›
+                ImageIcon originalImageIcon = new ImageIcon("C:/git/JAVABattleGame/BattleGame/src/images/buu.png");
+                enemyLabel.setIcon(originalImageIcon); // ì›ë˜ ì´ë¯¸ì§€ë¡œ ë³€ê²½
+                panel2.revalidate(); // íŒ¨ë„ì„ ë‹¤ì‹œ ìœ íš¨í™”í•˜ì—¬ ë³€ê²½ ì‚¬í•­ì„ ì ìš©
+                panel2.repaint(); // íŒ¨ë„ì„ ë‹¤ì‹œ ê·¸ë ¤ì„œ ë³€ê²½ ì‚¬í•­ì„ ì ìš©
             }
         }, 500);
 
         if (enemyHealth <= 0) {
-            displayCombatInfo("ÀüÅõ¿¡¼­ ½Â¸®Çß½À´Ï´Ù! 5ÃÊ ÈÄ¿¡ ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù");
+            displayCombatInfo("ì „íˆ¬ì—ì„œ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! 5ì´ˆ í›„ì— ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™í•©ë‹ˆë‹¤");
 
             Timer timer1 = new Timer();
             timer1.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    moveToNextStage(); // ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿ÇÏ´Â ¸Ş¼­µå È£Ãâ
+                    moveToNextStage(); // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™í•˜ëŠ” ë©”ì„œë“œ í˜¸ì¶œ
                 }
-            }, 5000); // 5ÃÊ ÈÄ¿¡ ½ÇÇà
+            }, 5000); // 5ì´ˆ í›„ì— ì‹¤í–‰
         }
 
     }
 
     private void defendEnemy(int damage) {
 
-        // ÀûÀÌ ÇÃ·¹ÀÌ¾îÀÇ °ø°İÀ» ¹Ş´Â °æ¿ì
-        enemyHealth -= damage; // ÀûÀÇ Ã¼·Â °¨¼Ò
+        // ì ì´ í”Œë ˆì´ì–´ì˜ ê³µê²©ì„ ë°›ëŠ” ê²½ìš°
+        enemyHealth -= damage; // ì ì˜ ì²´ë ¥ ê°ì†Œ
         if (enemyHealth < 0) {
-            enemyHealth = 0; // ÀûÀÇ Ã¼·ÂÀÌ 0 ¹Ì¸¸ÀÌ µÇÁö ¾Êµµ·Ï º¸Á¤
+            enemyHealth = 0; // ì ì˜ ì²´ë ¥ì´ 0 ë¯¸ë§Œì´ ë˜ì§€ ì•Šë„ë¡ ë³´ì •
         }
-        updateEnemyHealth(); // ÀûÀÇ Ã¼·Â °»½Å
+        updateEnemyHealth(); // ì ì˜ ì²´ë ¥ ê°±ì‹ 
 
     }
 
@@ -353,17 +355,17 @@ public class FightingGame {
             TimerTask enemyAttackTask = new TimerTask() {
                 @Override
                 public void run() {
-                    int damage = getRandomDamage(); // 10, 15, 20 Áß ·£´ıÇÑ µ¥¹ÌÁö¸¦ ¾ò´Â ÇÔ¼ö È£Ãâ
+                    int damage = getRandomDamage(); // 10, 15, 20 ì¤‘ ëœë¤í•œ ë°ë¯¸ì§€ë¥¼ ì–»ëŠ” í•¨ìˆ˜ í˜¸ì¶œ
 
-                    // ÇÃ·¹ÀÌ¾î °ø°İ¿¡ ´ëÇÑ ÅØ½ºÆ® Ç¥½Ã
+                    // í”Œë ˆì´ì–´ ê³µê²©ì— ëŒ€í•œ í…ìŠ¤íŠ¸ í‘œì‹œ
 
-                    // ÇÃ·¹ÀÌ¾î Ã¼·Â °¨¼Ò ¹× ¾÷µ¥ÀÌÆ®
+                    // í”Œë ˆì´ì–´ ì²´ë ¥ ê°ì†Œ ë° ì—…ë°ì´íŠ¸
                     decreasePlayerHealth(damage);
                 }
             };
 
             timer.schedule(enemyAttackTask, 1000);
-        } // 1ÃÊ µÚ¿¡ °ø°İ ÅÂ½ºÅ© ½ÇÇà
+        } // 1ì´ˆ ë’¤ì— ê³µê²© íƒœìŠ¤í¬ ì‹¤í–‰
     }
 
     private int getRandomDamage() {
@@ -377,7 +379,7 @@ public class FightingGame {
 
         if (playerHealth <= 0) {
             playerHealth = 0;
-            displayCombatInfo("°ÔÀÓ Á¾·á: ÇÃ·¹ÀÌ¾î°¡ ÆĞ¹èÇß½À´Ï´Ù.");
+            displayCombatInfo("ê²Œì„ ì¢…ë£Œ: í”Œë ˆì´ì–´ê°€ íŒ¨ë°°í–ˆìŠµë‹ˆë‹¤.");
 
         }
     }
@@ -385,30 +387,30 @@ public class FightingGame {
     private void defendPlayer(int damage) {
         int defenseChance = (int) (Math.random() * 10);
 
-        if (defenseChance < 2) { // 0, 1 : 20%ÀÇ È®·ü
-            displayCombatInfo(playerName + " ÀÌ(°¡)°ø°İÀ» ¹æ¾îÇß½À´Ï´Ù!\n");
-            startShieldEffectThread("C:/JavaLecture/°´ÁöÇÁ·ÎÁ§Æ®/src/images/shield.wav");
+        if (defenseChance < 2) { // 0, 1 : 20%ì˜ í™•ë¥ 
+            displayCombatInfo(playerName + " ì´(ê°€)ê³µê²©ì„ ë°©ì–´í–ˆìŠµë‹ˆë‹¤!\n");
+            startShieldEffectThread("C:/git/JAVABattleGame/BattleGame/src/images/shield.wav");
         } else {
-            // ÇÃ·¹ÀÌ¾î°¡ °ø°İÀ» ¹Ş´Â °æ¿ì
-            playerHealth -= damage; // ÀûÀÇ Ã¼·Â °¨¼Ò
+            // í”Œë ˆì´ì–´ê°€ ê³µê²©ì„ ë°›ëŠ” ê²½ìš°
+            playerHealth -= damage; // ì ì˜ ì²´ë ¥ ê°ì†Œ
             if (playerHealth < 0) {
-                playerHealth = 0; // ÀûÀÇ Ã¼·ÂÀÌ 0 ¹Ì¸¸ÀÌ µÇÁö ¾Êµµ·Ï º¸Á¤
+                playerHealth = 0; // ì ì˜ ì²´ë ¥ì´ 0 ë¯¸ë§Œì´ ë˜ì§€ ì•Šë„ë¡ ë³´ì •
             }
-            displayCombatInfo("»ó´ë°¡ °ø°İÇß½À´Ï´Ù! " + damage + "ÀÇ µ¥¹ÌÁö¸¦ ÀÔ¾ú½À´Ï´Ù.");
+            displayCombatInfo("ìƒëŒ€ê°€ ê³µê²©í–ˆìŠµë‹ˆë‹¤! " + damage + "ì˜ ë°ë¯¸ì§€ë¥¼ ì…ì—ˆìŠµë‹ˆë‹¤.");
             updatePlayerHealth(); 
         }
 
     }
 
     private void updateEnemyHealth() {
-        combatInfoArea.append("ÀûÀÇ Ã¼·Â: " + enemyHealth + "\n\n");
+        combatInfoArea.append("ì ì˜ ì²´ë ¥: " + enemyHealth + "\n\n");
         healthBar.setValue(enemyHealth); 
         int percentage = (int) ((double) enemyHealth / healthBar.getMaximum() * 100);
 
         if (percentage <= 20) {
-            healthBar.setForeground(Color.RED); // ÀûÀÇ Ã¼·ÂÀÌ 20% ¹Ì¸¸ÀÏ ¶§ »¡°£»öÀ¸·Î º¯°æ
+            healthBar.setForeground(Color.RED); // ì ì˜ ì²´ë ¥ì´ 20% ë¯¸ë§Œì¼ ë•Œ ë¹¨ê°„ìƒ‰ìœ¼ë¡œ ë³€ê²½
         } else if (percentage <= 50) {
-            healthBar.setForeground(Color.YELLOW); // ÀûÀÇ Ã¼·ÂÀÌ 50% ¹Ì¸¸ÀÏ ¶§ ³ë¶õ»öÀ¸·Î º¯°æ
+            healthBar.setForeground(Color.YELLOW); // ì ì˜ ì²´ë ¥ì´ 50% ë¯¸ë§Œì¼ ë•Œ ë…¸ë€ìƒ‰ìœ¼ë¡œ ë³€ê²½
         } else {
             healthBar.setForeground(Color.GREEN);
         }
@@ -416,15 +418,15 @@ public class FightingGame {
     }
 
     private void updatePlayerHealth() {
-        // ÇÃ·¹ÀÌ¾î Ã¼·ÂÀ» combatInfoArea(ÀüÅõ Á¤º¸ ¿µ¿ª)¿¡ Ãâ·ÂÇÒ ¼ö ÀÖÀ½
-        combatInfoArea.append(playerName + "ÀÇ Ã¼·Â: " + playerHealth + "\n\n");
-        playerHealthBar.setValue(playerHealth); // ÇÃ·¹ÀÌ¾î Ã¼·Â¹Ù °»½Å
+        // í”Œë ˆì´ì–´ ì²´ë ¥ì„ combatInfoArea(ì „íˆ¬ ì •ë³´ ì˜ì—­)ì— ì¶œë ¥í•  ìˆ˜ ìˆìŒ
+        combatInfoArea.append(playerName + "ì˜ ì²´ë ¥: " + playerHealth + "\n\n");
+        playerHealthBar.setValue(playerHealth); // í”Œë ˆì´ì–´ ì²´ë ¥ë°” ê°±ì‹ 
         int percentage = (int) ((double) playerHealth / playerHealthBar.getMaximum() * 100);
 
         if (percentage <= 20) {
-            playerHealthBar.setForeground(Color.RED); // ÇÃ·¹ÀÌ¾îÀÇ Ã¼·ÂÀÌ 20% ¹Ì¸¸ÀÏ ¶§ »¡°£»öÀ¸·Î º¯°æ
+            playerHealthBar.setForeground(Color.RED); // í”Œë ˆì´ì–´ì˜ ì²´ë ¥ì´ 20% ë¯¸ë§Œì¼ ë•Œ ë¹¨ê°„ìƒ‰ìœ¼ë¡œ ë³€ê²½
         } else if (percentage <= 50) {
-            playerHealthBar.setForeground(Color.YELLOW); // ÇÃ·¹ÀÌ¾îÀÇ Ã¼·ÂÀÌ 50% ¹Ì¸¸ÀÏ ¶§ ³ë¶õ»öÀ¸·Î º¯°æ
+            playerHealthBar.setForeground(Color.YELLOW); // í”Œë ˆì´ì–´ì˜ ì²´ë ¥ì´ 50% ë¯¸ë§Œì¼ ë•Œ ë…¸ë€ìƒ‰ìœ¼ë¡œ ë³€ê²½
         } else {
             playerHealthBar.setForeground(Color.GREEN);
         }
@@ -432,16 +434,16 @@ public class FightingGame {
     }
 
     private void moveToNextStage() {
-        JFrame newFrame = new JFrame("´ÙÀ½ ½ºÅ×ÀÌÁö");
+        JFrame newFrame = new JFrame("ë‹¤ìŒ ìŠ¤í…Œì´ì§€");
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //(´ÙÀ½ ½ºÅ×ÀÌÁö ¼³Á¤)
+        //(ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ì„¤ì •)
 
         newFrame.pack();
-        newFrame.setLocationRelativeTo(null); // È­¸éÀ» Áß¾Ó¿¡ ¹èÄ¡
+        newFrame.setLocationRelativeTo(null); // í™”ë©´ì„ ì¤‘ì•™ì— ë°°ì¹˜
         newFrame.setVisible(true);
 
-        // ÇöÀç ÇÁ·¹ÀÓ ¼û±â±â
+        // í˜„ì¬ í”„ë ˆì„ ìˆ¨ê¸°ê¸°
         frame.setVisible(false);
 
     }

@@ -21,13 +21,13 @@ public class BackgroundMusicPlayer implements Runnable {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
-            // Clip ¿­±â
+            // Clip ì—´ê¸°
             Clip bgmClip = AudioSystem.getClip();
             bgmClip.open(audioStream);
 
-            // ¹İº¹ Àç»ı
+            // ë°˜ë³µ ì¬ìƒ
             bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
-            bgmClip.start(); // Àç»ı ½ÃÀÛ
+            bgmClip.start(); // ì¬ìƒ ì‹œì‘
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
